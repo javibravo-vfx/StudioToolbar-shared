@@ -1,0 +1,33 @@
+{
+  "_doc": "ColorChecker Classic, 24 patches. Reference values in 8-bit sRGB (D65, BabelColor post-2009 averages). Each toolbar converts them to linear and to the working space (ACEScg or lin_srgb) with studio_lookdev.core.colorchecker_patches(). Order: row 1 at the top, left to right, as seen from the front.",
+  "label": "ColorChecker Classic (24)",
+  "source_space": "srgb_8bit",
+  "rows": 4,
+  "cols": 6,
+  "patches": [
+    {"id":  1, "name": "dark_skin",      "srgb": [115,  82,  68]},
+    {"id":  2, "name": "light_skin",     "srgb": [194, 150, 130]},
+    {"id":  3, "name": "blue_sky",       "srgb": [ 98, 122, 157]},
+    {"id":  4, "name": "foliage",        "srgb": [ 87, 108,  67]},
+    {"id":  5, "name": "blue_flower",    "srgb": [133, 128, 177]},
+    {"id":  6, "name": "bluish_green",   "srgb": [103, 189, 170]},
+    {"id":  7, "name": "orange",         "srgb": [214, 126,  44]},
+    {"id":  8, "name": "purplish_blue",  "srgb": [ 80,  91, 166]},
+    {"id":  9, "name": "moderate_red",   "srgb": [193,  90,  99]},
+    {"id": 10, "name": "purple",         "srgb": [ 94,  60, 108]},
+    {"id": 11, "name": "yellow_green",   "srgb": [157, 188,  64]},
+    {"id": 12, "name": "orange_yellow",  "srgb": [224, 163,  46]},
+    {"id": 13, "name": "blue",           "srgb": [ 56,  61, 150]},
+    {"id": 14, "name": "green",          "srgb": [ 70, 148,  73]},
+    {"id": 15, "name": "red",            "srgb": [175,  54,  60]},
+    {"id": 16, "name": "yellow",         "srgb": [231, 199,  31]},
+    {"id": 17, "name": "magenta",        "srgb": [187,  86, 149]},
+    {"id": 18, "name": "cyan",           "srgb": [  8, 133, 161]},
+    {"id": 19, "name": "white_9_5",      "srgb": [243, 243, 242]},
+    {"id": 20, "name": "neutral_8",      "srgb": [200, 200, 200]},
+    {"id": 21, "name": "neutral_6_5",    "srgb": [160, 160, 160]},
+    {"id": 22, "name": "neutral_5",      "srgb": [122, 122, 121]},
+    {"id": 23, "name": "neutral_3_5",    "srgb": [ 85,  85,  85]},
+    {"id": 24, "name": "black_2",        "srgb": [ 52,  52,  52]}
+  ]
+}
