@@ -1,0 +1,9 @@
+{
+  "_doc": "Copy this file next to each HDRI with the same base name (e.g. studio_softbox_4k.exr -> studio_softbox_4k.json). Every field is optional. For a thumbnail, put a .jpg/.png with the same base name.",
+  "label": "Studio Softbox",
+  "rotation_offset_deg": 0.0,
+  "intensity": 1.0,
+  "colorspace": "ACEScg",
+  "has_sun": false,
+  "tags": ["studio", "neutral"]
+}
