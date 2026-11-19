@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# HDRIs and generated files stay on the studio drive (T:\.studio-toolbar\shared), not in git
+lookdev/hdri/**
+!lookdev/hdri/_EXAMPLE_sidecar.json
+lookdev/_library_cache/
+_cache/
+*.exr
+*.hdr
+*.tx
