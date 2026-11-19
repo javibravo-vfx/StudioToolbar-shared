@@ -327,6 +327,88 @@ def find_hdri(name: str, folder: str = HDRI_DIR) -> Optional[HDRI]:
             return h
     return None
 
+# ---------------------------------------------------------------------------
+# Project HDRI folder (the shot's own HDRIs)
+# ---------------------------------------------------------------------------
+
+# Folder next to the scene file (e.g. <shot>/3D/8_lighting/1_projects/hdri) that the Studio
+# Toolbar creates with the task folders. When it exists, every toolbar offers it as a library
+# and uses it by default, so the HDRIs a shot uses live with the shot.
+PROJECT_HDRI_DIRNAME = "hdri"
+
+
+def project_hdri_dir(scene_dir: Optional[str], create: bool = False) -> Optional[str]:
+    """
+    The project's hdri folder inside `scene_dir` (the folder of the open scene), matched
+    without case; None when the scene is not saved or the folder is missing (unless
+    `create`, which makes it).
+    """
+    if not scene_dir:
+        return None
+    scene_dir = os.path.normpath(str(scene_dir))
+    if not os.path.isdir(scene_dir):
+        return None
+    try:
+        for d in os.listdir(scene_dir):
+            p = os.path.join(scene_dir, d)
+            if d.lower() == PROJECT_HDRI_DIRNAME and os.path.isdir(p):
+                return p
+    except OSError:
+        return None
+    if create:
+        p = os.path.join(scene_dir, PROJECT_HDRI_DIRNAME)
+        os.makedirs(p, exist_ok=True)
+        return p
+    return None
+
+
+def _same_file(a: str, b: str) -> bool:
+    try:
+        sa, sb = os.stat(a), os.stat(b)
+    except OSError:
+        return False
+    return sa.st_size == sb.st_size and abs(sa.st_mtime - sb.st_mtime) < 2.0
+
+
+def copy_hdri(hdri: HDRI, dest_dir: str, overwrite: bool = False) -> Tuple[HDRI, bool]:
+    """
+    Copies an HDRI into another library (e.g. the shot's project hdri folder) with what goes
+    with it, so it shows there at once with the same preview and defaults:
+      next to the file: the hand-made thumbnail, the .json sidecar, the Arnold .tx
+      generated:        the preview, the blurred background and saved defaults (cache)
+    The file goes to the top of `dest_dir` (sub-folders of the source library are dropped).
+    Returns (the HDRI in `dest_dir`, copied). copied is False when it was already there
+    (same file, or the HDRI already belongs to `dest_dir`).
+    Raises FileExistsError when a different file of that name is there and not `overwrite`.
+    """
+    import shutil
+    dest_dir = os.path.normpath(dest_dir)
+    src = os.path.normpath(hdri.path)
+    if (_norm_path(src) + os.sep).startswith(_norm_path(dest_dir) + os.sep):
+        return hdri_from_path(src, dest_dir), False
+    dst = os.path.join(dest_dir, os.path.basename(src))
+    if os.path.isfile(dst):
+        if _same_file(src, dst):
+            return hdri_from_path(dst, dest_dir), False
+        if not overwrite:
+            raise FileExistsError(dst)
+    os.makedirs(dest_dir, exist_ok=True)
+    shutil.copy2(src, dst)
+
+    def put(a: str, b: str) -> None:
+        if os.path.isfile(a) and _norm_path(a) != _norm_path(b):
+            os.makedirs(os.path.dirname(b), exist_ok=True)
+            shutil.copy2(a, b)
+
+    sbase, dbase = os.path.splitext(src)[0], os.path.splitext(dst)[0]
+    for ext in THUMB_EXTS + (".json", ".tx"):
+        put(sbase + ext, dbase + ext)
+    put(thumb_cache_path(src, hdri.root), thumb_cache_path(dst, dest_dir))
+    put(bg_cache_path(src, hdri.root), bg_cache_path(dst, dest_dir))
+    if not is_default_library(hdri.root):        # defaults saved for a non-studio folder
+        put(sidecar_path(src, hdri.root), sidecar_path(dst, dest_dir))
+    return hdri_from_path(dst, dest_dir), True
+
 
 # ---------------------------------------------------------------------------
 # Colour
