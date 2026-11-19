@@ -1,0 +1,44 @@
+{
+  "_doc": "Lookdev Rig preset. Every size is relative to the asset or to the screen, never absolute units. Read by every toolbar (Max, Houdini, Blender, Maya). 'label' is the name shown in the Preset list.",
+  "label": "Turntable \u00b7 clockwise",
+  "working_space": "ACEScg",
+  "camera": {
+    "focal_mm": 50.0,
+    "film_width_mm": 36.0,
+    "framing_margin": 1.15,
+    "elevation_deg": 8.0
+  },
+  "refs": {
+    "items": [
+      "chrome",
+      "grey18",
+      "colorchecker"
+    ],
+    "corner": "bottom_right",
+    "depth_factor": 0.5,
+    "ball_size_screen": 0.09,
+    "chart_height_factor": 1.0,
+    "gap": 0.18,
+    "padding_screen": 0.035,
+    "cast_shadows": false
+  },
+  "ground": {
+    "shadow_catcher": true,
+    "size_factor": 12.0,
+    "offset": 0.0
+  },
+  "clay": {
+    "enabled": false,
+    "albedo": 0.18
+  },
+  "turntable": {
+    "enabled": true,
+    "start_frame": 1001,
+    "object_frames": 120,
+    "hdri_frames": 120,
+    "object_spin": "cw"
+  },
+  "light": {
+    "intensity": 1.0
+  }
+}
